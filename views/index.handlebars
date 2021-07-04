@@ -16,9 +16,9 @@
             </div>
           </div>
           <!-- search category --->
-          <div class="category-group">
+          <div id="category-group">
             {{#each category}}
-            <a href="/search?category={{this}}"class="badge badge-pill badge-warning">{{this}}</a>
+            <a href="/search?keyword={{this}}"class="badge badge-pill badge-warning font-weight-normal">{{this}}</a>
             {{/each}}
           </div>
         </form>
@@ -27,7 +27,7 @@
   </div>
 
 <!-- restaurant list -->
-  <div class="container mt-5">
+  <div class="container mt-4">
     {{#if search_result}}
     <div id="search_result"><p>搜尋到 {{restaurants.length}} 間相符合的餐廳</p></div>
     {{/if}}
