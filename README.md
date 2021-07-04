@@ -49,6 +49,12 @@ Express is listening on localhost: 3000.
 
 請至 [http://localhost:3000](http://localhost:3000)
 
+## 成果截圖
+
+![](./homePage.PNG)
+![](./detailPage.PNG)
+
+
 ## 開發者
 
 [AsterChang](https://github.com/asterchang96)
