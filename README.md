@@ -20,7 +20,7 @@
 1. 打開你的 terminal，Clone 此專案至本機電腦
 
 ```
-git clone
+git clone https://github.com/asterchang96/restaurant_list.git
 ```
 
 2. 進入至專案資料夾
@@ -32,7 +32,7 @@ cd restaurant_list
 3. 安裝 npm 套件
 
 ```
-npm install
+npm install express
 ```
 
 4. 執行程式
@@ -47,8 +47,8 @@ npm run dev
 Express is listening on localhost: 3000.
 ```
 
-請至 [http://localhost:3000](http://localhost:3000) 開始使用！
+請至 [http://localhost:3000](http://localhost:3000)
 
-## Developer - 開發者
+## 開發者
 
 [AsterChang](https://github.com/asterchang96)
