@@ -17,7 +17,19 @@ app.use(express.static('public'))
 //引入餐廳動態資料
 app.get('/', (req, res) => {
   let search_result = false
-  res.render('index', {restaurants : restaurant_list.results,search_result : search_result})
+
+  //search category
+  //抽取不重複的category
+  const category = []
+  restaurant_list.results.forEach((restaurant) => {
+    category.push(restaurant.category)
+  })
+  const category2 = Array.from( new Set(category) );
+  //console.log(category)
+  console.log(category2)
+
+
+  res.render('index', {restaurants : restaurant_list.results,search_result : search_result,category:category2})
 })
 
 //動態引入餐廳詳細資料
@@ -30,16 +42,34 @@ app.get('/restaurants/:restaurant', (req, res) => {
 //搜尋餐廳
 app.get('/search', (req, res) => {
   const keyword = req.query.keyword
+  const category = req.query.category
+  console.log(req.query)
 
   //搜尋到幾筆相關資料(搜尋後才產生)
   search_result = true
 
-  //有資料
-  const restaurants = restaurant_list.results.filter((restaurant) =>{
-    return restaurant.name.toLowerCase().includes(keyword.toLowerCase())
-  })
+  //searchbar 有資料
+  let searchbarTorestaurants = []
+  let categoryTorestaurants = []
+  if(!category){
+    searchbarTorestaurants = restaurant_list.results.filter((restaurant) =>{
+      return restaurant.name.toLowerCase().includes(keyword.toLowerCase())
+    })
+    //搜尋分類
+    searchbarTorestaurants = restaurant_list.results.filter((restaurant) =>{
+      return restaurant.category.includes(keyword)
+    })   
+  }else{
+    //category-group 搜尋...
+    categoryTorestaurants = restaurant_list.results.filter((restaurant) =>{
+      return restaurant.category.includes(category)
+    })    
+  }
 
-  //沒有相關資料
+
+
+  
+  const restaurants = searchbarTorestaurants.concat(categoryTorestaurants)
 
   res.render('index', {restaurants : restaurants, keyword : keyword,search_result:search_result})
 })
