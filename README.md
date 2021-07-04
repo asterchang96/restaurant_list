@@ -51,7 +51,7 @@ Express is listening on localhost: 3000.
 
 ## 成果截圖
 
-![首頁](./homePage.)
+![首頁](./homePage.png)
 ![詳細餐廳資訊](./detailPage.png)
 
 
