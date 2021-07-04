@@ -2,7 +2,7 @@
 const express = require('express')
 const exphbs = require('express-handlebars')
 const restaurant_list = require('./restaurant.json')
-
+let category_restaurant = [] //餐廳類型
 
 const app = express()
 const port = 3000
@@ -17,24 +17,19 @@ app.use(express.static('public'))
 //引入餐廳動態資料
 app.get('/', (req, res) => {
   let search_result = false
+  let pre_category_restaurant = new Set();
 
   //search category
-  //抽取不重複的category
-  const category = []
   restaurant_list.results.forEach((restaurant) => {
-    category.push(restaurant.category)
+    pre_category_restaurant.add(restaurant.category)
   })
-  const category2 = Array.from( new Set(category) );
-  //console.log(category)
-  console.log(category2)
+  category_restaurant = sortAndPick(pre_category_restaurant)
 
-
-  res.render('index', {restaurants : restaurant_list.results,search_result : search_result,category:category2})
+  res.render('index', {restaurants : restaurant_list.results,search_result : search_result,category:category_restaurant})
 })
 
 //動態引入餐廳詳細資料
 app.get('/restaurants/:restaurant', (req, res) => {
-  //console.log(req.params.restaurant)
   const restaurant_id = restaurant_list.results.find((restaurant) => restaurant.id.toString() === req.params.restaurant.toString())
   res.render('show', {restaurant : restaurant_id})
 })
@@ -52,10 +47,11 @@ app.get('/search', (req, res) => {
   let searchbarTorestaurants = []
   let categoryTorestaurants = []
   if(!category){
+    //一般keywords搜尋
     searchbarTorestaurants = restaurant_list.results.filter((restaurant) =>{
       return restaurant.name.toLowerCase().includes(keyword.toLowerCase())
     })
-    //搜尋分類
+    //keywords分類搜尋
     searchbarTorestaurants = restaurant_list.results.filter((restaurant) =>{
       return restaurant.category.includes(keyword)
     })   
@@ -77,3 +73,27 @@ app.get('/search', (req, res) => {
 app.listen(port, () => {
   console.log(`Express is running on http://localhost:${port}`)
 })
+
+
+//function 區
+//隨機抽取5個
+function sortAndPick(pre_category_restaurant){
+  //set 改 arr
+  let category_restaurant_list = [...pre_category_restaurant]
+
+  //shuffle 隨機排序
+  function shuffle(array) {
+    var m = array.length,
+        t, i;
+    while (m) {
+        i = Math.floor(Math.random() * m--);
+        t = array[m];
+        array[m] = array[i];
+        array[i] = t;
+    }
+    return array;
+  }
+  
+  //取5個
+  return shuffle(category_restaurant_list).slice(0,3)
+}
