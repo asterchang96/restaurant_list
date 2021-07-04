@@ -16,7 +16,8 @@ app.use(express.static('public'))
 
 //引入餐廳動態資料
 app.get('/', (req, res) => {
-  res.render('index', {restaurants : restaurant_list.results})
+  let search_result = false
+  res.render('index', {restaurants : restaurant_list.results,search_result : search_result})
 })
 
 //動態引入餐廳詳細資料
@@ -28,12 +29,19 @@ app.get('/restaurants/:restaurant', (req, res) => {
 
 //搜尋餐廳
 app.get('/search', (req, res) => {
-  console.log(req.query.keyword)
   const keyword = req.query.keyword
+
+  //搜尋到幾筆相關資料(搜尋後才產生)
+  search_result = true
+
+  //有資料
   const restaurants = restaurant_list.results.filter((restaurant) =>{
     return restaurant.name.toLowerCase().includes(keyword.toLowerCase())
   })
-  res.render('index', {restaurants : restaurants, keyword : keyword})
+
+  //沒有相關資料
+
+  res.render('index', {restaurants : restaurants, keyword : keyword,search_result:search_result})
 })
 
 app.listen(port, () => {

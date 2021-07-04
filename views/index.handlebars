@@ -21,6 +21,9 @@
 
 <!-- restaurant list -->
   <div class="container mt-5">
+    {{#if search_result}}
+    <div id="search_result"><p>搜尋到 {{restaurants.length}} 間相符合的餐廳</p></div>
+    {{/if}}
     <div class="row">
       <div class="col-md-10 col-12 mx-auto">
         <div class="card-columns">
