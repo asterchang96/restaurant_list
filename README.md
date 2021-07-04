@@ -11,9 +11,9 @@
 
 ## 環境建置與需求
 
-- [Node.js](https://nodejs.org/en/) - Node.js
-- [Express](https://github.com/Eason0in/Restaurant-CRUD) - 應用程式架構
-- [Express-Handlebars](https://www.npmjs.com/package/express-handlebars) - 模板引擎
+- [Node.js](https://nodejs.org/en/)
+- [Express](https://github.com/Eason0in/Restaurant-CRUD)
+- [Express-Handlebars](https://www.npmjs.com/package/express-handlebars)
 
 ## 安裝流程
 
