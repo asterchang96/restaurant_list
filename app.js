@@ -72,17 +72,12 @@ function sortAndPick(pre_category_restaurant){
 
   //shuffle 隨機排序
   function shuffle(array) {
-    var m = array.length,
-        t, i;
-    while (m) {
-        i = Math.floor(Math.random() * m--);
-        t = array[m];
-        array[m] = array[i];
-        array[i] = t;
+    for (let i = array.length - 1; i > 0; i--) {
+      let j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
     }
     return array;
-  }
-  
+  } 
   //取4個
   return shuffle(category_restaurant_list).slice(0,4)
 }
