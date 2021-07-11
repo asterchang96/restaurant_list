@@ -1,6 +1,8 @@
 // Include express from node_modules
 const express = require('express')
 const exphbs = require('express-handlebars')
+const mongoose = require('mongoose')
+
 const restaurant_list = require('./restaurant.json')
 let pre_category_restaurant = new Set(); //所有餐廳類型
 let category_restaurant = [] //隨機選取後之餐廳類型
@@ -15,6 +17,21 @@ app.set('view engine', 'handlebars')
 
 //setting static files
 app.use(express.static('public'))
+
+//database
+mongoose.connect('mongodb://localhost/restaurant_list',{ useNewUrlParser: true , useUnifiedTopology: true })
+const db = mongoose.connection
+// 連線異常
+db.on('error', () => {
+  console.log('mongodb error!')
+})
+// 連線成功
+db.once('open', () => {
+  console.log('mongodb connected!')
+})
+
+
+
 
 //引入餐廳動態資料
 app.get('/', (req, res) => {
