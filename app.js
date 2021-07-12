@@ -97,6 +97,16 @@ app.post('/restaurants/:restaurant/edit', (req, res) =>{
     .catch(error => console.log(error))
 })
 
+//刪除餐廳資料
+app.post('/restaurants/:restaurant/delete',(req, res) => {
+  const id = req.params.restaurant
+  return Restaurant_list.findById(id) //先確保id存在
+    .then( restaurant => restaurant.remove())
+    .then(()=> res.redirect(`/`))
+    .catch(error => console.error(error))
+
+})
+
 //動態引入餐廳詳細資料
 app.get('/restaurants/:restaurant', (req, res) => {
   const id = req.params.restaurant

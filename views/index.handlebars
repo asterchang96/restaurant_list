@@ -60,7 +60,9 @@
             <div class="card-footer">
               
               <a class="btn" id="restaurant_edit" href="./restaurants/{{this._id}}/edit">edit</a>
-              <a class="btn" id="restaurant_delete" href="./restaurants/{{this._id}}/delete">delete</a>
+              <form action="./restaurants/{{ this._id }}/delete" method="POST" style="display:inline">
+                <button type="submit">delete</button>
+              </form>
             </div>   
 
           </div>

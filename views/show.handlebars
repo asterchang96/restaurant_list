@@ -40,7 +40,9 @@
 
     <div class="button group" style="text-align: center">
       <a class="btn  btn-primary" id="restaurant_edit" href="/restaurants/{{restaurant._id}}/edit">edit</a>
-      <a class="btn btn-primary" id="restaurant_delete" href="/restaurants/{{restaurant._id}}/delete">delete</a>
+      <form action="/restaurants/{{ restaurant._id }}/delete" method="POST" style="display:inline">
+        <button type="submit">delete</button>
+      </form>
       <a href="/" class="btn btn-primary">Back</a>
     </div>
 
