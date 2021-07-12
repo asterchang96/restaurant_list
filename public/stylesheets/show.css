@@ -14,7 +14,7 @@ header {
   position: relative;
   z-index: -1;
   margin: -5px;
-  height: 360px;
+  height: 350px;
   background: #dddddd center center
     url("https://assets-lighthouse.s3.amazonaws.com/uploads/image/file/5720/restaurants-list-cover.jpg");
   background-size: cover;

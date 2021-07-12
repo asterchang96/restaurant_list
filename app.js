@@ -1,6 +1,7 @@
 // Include express from node_modules
 const express = require('express')
 const exphbs = require('express-handlebars')
+const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 
 const Restaurant_list = require('./models/restaurants')
@@ -17,6 +18,7 @@ app.set('view engine', 'handlebars')
 
 //setting static files
 app.use(express.static('public'))
+app.use(bodyParser.urlencoded({ extended: true }))
 
 //database
 mongoose.connect('mongodb://localhost/restaurant_list',{ useNewUrlParser: true , useUnifiedTopology: true })
@@ -42,8 +44,6 @@ app.get('/', (req, res) => {
   Restaurant_list.find()
     .lean()
     .then(restaurants => res.render('index', {restaurants , search_result : search_result_howmany_restaurants, category : category_restaurant}))
-
-
 })
 
 //新增餐廳資訊
@@ -52,7 +52,21 @@ app.get('/restaurants/new', (req, res) => {
 })
 
 app.post('/restaurants',(req, res) => {
+  console.log(req.body)
+  const name = req.body.name
+  const name_en = req.body.name_en
+  const category = req.body.category
+  const phone = req.body.phone
+  const rating = req.body.rating
+  const location = req.body.location
+  const google_map = req.body.google_map
+  const image = req.body.image
+  const description = req.body.description
 
+  const restaurant = new Restaurant_list({ name, name_en, category, phone, rating, location, google_map, image, description})
+  return restaurant.save() //write back to server
+    .then(() => res.redirect('/'))
+    .catch(error => console.error(error))
 })
 
 //動態引入餐廳詳細資料
@@ -90,7 +104,6 @@ app.get('/search', (req, res) => {
 })
 
 
-
 app.listen(port, () => {
   console.log(`Express is running on http://localhost:${port}`)
 })
@@ -121,5 +134,5 @@ function sortAndPick(pre_category_restaurant){
     return array;
   } 
   //取4個
-  return shuffle(category_restaurant_list).slice(0,4)
+  return shuffle(category_restaurant_list).slice(0,5)
 }
