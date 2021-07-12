@@ -52,6 +52,10 @@
                 <i class="fas fa-star fa-xs"></i>
               </span>      
             </div>
+            <div class="card-footer">
+              <button id="restaurant_edit" href="./restaurants/{{this._id}}/edit">edit</button>
+              <button id="restaurant_delete" href="./restaurants/{{this._id}}/delete">delete</button>
+            </div>
           </div>
         </a>
         {{/each}}
@@ -59,4 +63,10 @@
       </div>
     </div>
   </div>
+  {{!-- new --}}
+  <a href="./restaurants/new">
+    <button id="addButton" class="btn btn-warning font-weight-bold text-white rounded-circle"
+      style="font-size: 26px; width: 60px; height: 60px; position: fixed; right: 3%; bottom: 8%;"><i
+        class="fas fa-plus"></i></button>
+  </a>
 </div>

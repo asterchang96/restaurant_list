@@ -35,14 +35,23 @@ db.once('open', () => {
 app.get('/', (req, res) => {
   search_result_howmany_restaurants = false
 
-  // TODO 隨機產生category
-  //category_restaurant = sortAndPick(pre_category_restaurant)
+  // 隨機產生category
+  category_restaurant = sortAndPick(pre_category_restaurant)
 
   //引入restaurant database
   Restaurant_list.find()
     .lean()
-    .then(restaurants => res.render('index', {restaurants , search_result : search_result_howmany_restaurants}))
+    .then(restaurants => res.render('index', {restaurants , search_result : search_result_howmany_restaurants, category : category_restaurant}))
 
+
+})
+
+//新增餐廳資訊
+app.get('/restaurants/new', (req, res) => {
+  return res.render('new')
+})
+
+app.post('/restaurants',(req, res) => {
 
 })
 
@@ -58,28 +67,29 @@ app.get('/restaurants/:restaurant', (req, res) => {
 
 //搜尋餐廳
 app.get('/search', (req, res) => {
-  //category_restaurant = sortAndPick(pre_category_restaurant)
+  category_restaurant = sortAndPick(pre_category_restaurant)
   const keyword = (req.query.keyword).replace(/\s*/g,"")
-
+  let restaurants_search = []
+  search_result_howmany_restaurants = true
   //一般keywords搜尋、keywords分類搜尋==>顯示搜尋資料
-  const restaurants = Restaurant_list.find((restaurant) => {
-    //搜尋到幾筆相關資料(搜尋後才產生)
-    search_result_howmany_restaurants = true
-    //temp_restaurants 暫放搜尋資料
-    let temp_restaurants = restaurant.name.toLowerCase().includes(keyword.toLowerCase())
-    temp_restaurants += restaurant.category.includes(keyword)
-    return temp_restaurants
-    console.log(restaurant.name)
-
-  }) 
-  console.log(restaurants)
-
-  //特殊keywords搜尋(未輸入)==>顯示全部資料
-  if(keyword === ''){
-    search_result_howmany_restaurants = false
-  } 
-  res.render('index', {restaurants : restaurants, keyword : keyword,search_result : search_result_howmany_restaurants, category : category_restaurant})
+  Restaurant_list.find()
+    .lean()
+    .then((restaurants) => {
+      restaurants_search = restaurants.filter((restaurant) => {
+        let temp_restaurants = restaurant.name.toLowerCase().includes(keyword.toLowerCase())
+        temp_restaurants += restaurant.category.includes(keyword)
+        return temp_restaurants
+      })  
+      
+      //特殊keywords搜尋(未輸入)==>顯示全部資料
+      if(keyword === ''){
+        search_result_howmany_restaurants = false
+      }
+      res.render('index', {restaurants : restaurants_search, keyword : keyword, search_result : search_result_howmany_restaurants, category : category_restaurant})
+    })
 })
+
+
 
 app.listen(port, () => {
   console.log(`Express is running on http://localhost:${port}`)
@@ -89,11 +99,14 @@ app.listen(port, () => {
 //function 區
 
 //隨機抽取4個
+
 function sortAndPick(pre_category_restaurant){
   //search category
 
-  Restaurant_list.forEach((restaurant) => {
+  Restaurant_list.find().lean().then((restaurants) => {
+    restaurants.forEach((restaurant) => {
     pre_category_restaurant.add(restaurant.category)
+  })
   })
 
   //set 改 arr
