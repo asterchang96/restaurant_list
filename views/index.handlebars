@@ -36,10 +36,13 @@
         <div class="card-columns">
           <!-- restaurant -->
           {{#each restaurants}}
-        <a href="/restaurants/{{this._id}}" class="text-secondary">
+        
           <div class="card mb-3">
+
+            <a href="/restaurants/{{this._id}}" class="text-secondary">
             <img class="card-img-top" src="{{this.image}}"
               alt="{{this.name}}">
+
             <div class="card-body p-3">
               <h6 class="card-title mb-1">{{this.name}}</h6>
         
@@ -50,14 +53,18 @@
               <span class="badge badge-pill badge-danger font-weight-normal">
                 {{this.rating}}
                 <i class="fas fa-star fa-xs"></i>
-              </span>      
+              </span> 
             </div>
+            </a>
+
             <div class="card-footer">
-              <button id="restaurant_edit" href="./restaurants/{{this._id}}/edit">edit</button>
-              <button id="restaurant_delete" href="./restaurants/{{this._id}}/delete">delete</button>
-            </div>
+              
+              <a class="btn" id="restaurant_edit" href="./restaurants/{{this._id}}/edit">edit</a>
+              <a class="btn" id="restaurant_delete" href="./restaurants/{{this._id}}/delete">delete</a>
+            </div>   
+
           </div>
-        </a>
+      
         {{/each}}
         </div>
       </div>

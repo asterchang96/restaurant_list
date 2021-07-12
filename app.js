@@ -6,7 +6,7 @@ const mongoose = require('mongoose')
 
 const Restaurant_list = require('./models/restaurants')
 let pre_category_restaurant = new Set(); //所有餐廳類型
-let category_restaurant = [] //隨機選取後之餐廳類型
+let category = [] //隨機選取後之餐廳類型
 let search_result_howmany_restaurants = false
 
 const app = express()
@@ -38,12 +38,12 @@ app.get('/', (req, res) => {
   search_result_howmany_restaurants = false
 
   // 隨機產生category
-  category_restaurant = sortAndPick(pre_category_restaurant)
+  category = sortAndPick(pre_category_restaurant)
 
   //引入restaurant database
   Restaurant_list.find()
     .lean()
-    .then(restaurants => res.render('index', {restaurants , search_result : search_result_howmany_restaurants, category : category_restaurant}))
+    .then(restaurants => res.render('index', {restaurants , search_result : search_result_howmany_restaurants, category}))
 })
 
 //新增餐廳資訊
@@ -51,6 +51,7 @@ app.get('/restaurants/new', (req, res) => {
   return res.render('new')
 })
 
+//送出餐廳資料
 app.post('/restaurants',(req, res) => {
   console.log(req.body)
   const name = req.body.name
@@ -69,6 +70,33 @@ app.post('/restaurants',(req, res) => {
     .catch(error => console.error(error))
 })
 
+//編輯餐廳資料
+app.get('/restaurants/:restaurant/edit', (req, res) =>{
+  const id = req.params.restaurant
+  return Restaurant_list.findById(id)
+    .lean()
+    .then((restaurant) => res.render('edit', { restaurant , category }))
+    .catch(error => console.log(error))
+})
+
+app.post('/restaurants/:restaurant/edit', (req, res) =>{
+  const id = req.params.restaurant
+  return Restaurant_list.findById(id)
+    .then(restaurant => {
+      restaurant.name = req.body.name
+      restaurant.name_en = req.body.name_en
+      restaurant.category = req.body.category
+      restaurant.phone = req.body.phone
+      restaurant.rating = req.body.rating
+      restaurant.location = req.body.location
+      restaurant.google_map = req.body.google_map
+      restaurant.description = req.body.description
+      return restaurant.save()
+    })
+    .then(() => res.redirect(`/restaurants/${id}`))
+    .catch(error => console.log(error))
+})
+
 //動態引入餐廳詳細資料
 app.get('/restaurants/:restaurant', (req, res) => {
   const id = req.params.restaurant
@@ -81,7 +109,7 @@ app.get('/restaurants/:restaurant', (req, res) => {
 
 //搜尋餐廳
 app.get('/search', (req, res) => {
-  category_restaurant = sortAndPick(pre_category_restaurant)
+  category = sortAndPick(pre_category_restaurant)
   const keyword = (req.query.keyword).replace(/\s*/g,"")
   let restaurants_search = []
   search_result_howmany_restaurants = true
@@ -99,7 +127,7 @@ app.get('/search', (req, res) => {
       if(keyword === ''){
         search_result_howmany_restaurants = false
       }
-      res.render('index', {restaurants : restaurants_search, keyword : keyword, search_result : search_result_howmany_restaurants, category : category_restaurant})
+      res.render('index', {restaurants : restaurants_search, keyword : keyword, search_result : search_result_howmany_restaurants, category })
     })
 })
 

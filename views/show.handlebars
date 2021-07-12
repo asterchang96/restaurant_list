@@ -37,6 +37,14 @@
       <img class="rounded mx-auto d-block mb-4 w-100"
         src="{{restaurant.image}}" alt="{{restaurant.name}}"
         style="max-width: 600px;">
+
+    <div class="button group" style="text-align: center">
+      <a class="btn  btn-primary" id="restaurant_edit" href="/restaurants/{{restaurant._id}}/edit">edit</a>
+      <a class="btn btn-primary" id="restaurant_delete" href="/restaurants/{{restaurant._id}}/delete">delete</a>
+      <a href="/" class="btn btn-primary">Back</a>
     </div>
+
+    </div>
+
   </div>
 </div>
