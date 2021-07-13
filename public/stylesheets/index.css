@@ -127,6 +127,10 @@ header {
   padding-right: 2px;
 }
 
+.btn-link:hover{
+  background-color: rgba(44, 97, 204, 0.03);
+  border-radius: 10px;
+}
 
 .btn-warning{
   color:white; 

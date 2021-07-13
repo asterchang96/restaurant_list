@@ -17,8 +17,9 @@
           </div>
           <!-- search category --->
           <div id="category-group">
+            <p class="badge" style="display:inline;">試試看:</p>
             {{#each category}}
-            <a href="/search?keyword={{this}}" class="badge badge-pill badge-warning font-weight-normal">{{this}}</a>
+              <a href="/search?keyword={{this}}" class="badge badge-pill badge-warning font-weight-normal">{{this}}</a>
             {{/each}}
           </div>
         </form>

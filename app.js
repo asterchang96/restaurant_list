@@ -137,7 +137,7 @@ app.get('/search', (req, res) => {
       if(keyword === ''){
         search_result_howmany_restaurants = false
       }
-      res.render('index', {restaurants : restaurants_search, keyword : keyword, search_result : search_result_howmany_restaurants, category })
+      res.render('index', {restaurants : restaurants_search, keyword , search_result : search_result_howmany_restaurants, category })
     })
 })
 
@@ -149,11 +149,9 @@ app.listen(port, () => {
 
 //function 區
 
-//隨機抽取4個
-
 function sortAndPick(pre_category_restaurant){
-  //search category
 
+  //search category
   Restaurant_list.find().lean().then((restaurants) => {
     restaurants.forEach((restaurant) => {
     pre_category_restaurant.add(restaurant.category)
@@ -171,6 +169,7 @@ function sortAndPick(pre_category_restaurant){
     }
     return array;
   } 
-  //取4個
+  
+  //取5個
   return shuffle(category_restaurant_list).slice(0,5)
 }
