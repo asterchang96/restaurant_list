@@ -104,3 +104,20 @@ header {
 #category-group {
   padding: 3px;
 }
+
+#btn_delete {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  background: #2a2a2a; 
+  border: 1px solid #ffffff;
+  font-size: 14px;
+}
+#btn_delete:hover {
+  background: #000000;
+
+}
+.fa-times{
+  color: #ffffff;
+  size: 14px;
+}
