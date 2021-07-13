@@ -113,11 +113,22 @@ header {
   border: 1px solid #ffffff;
   font-size: 14px;
 }
+
 #btn_delete:hover {
   background: #000000;
-
 }
+
 .fa-times{
   color: #ffffff;
   size: 14px;
+}
+
+.btn-link{
+  padding-right: 2px;
+}
+
+
+.btn-warning{
+  color:white; 
+  font-size: 14px;
 }

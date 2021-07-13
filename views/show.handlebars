@@ -39,11 +39,11 @@
         style="max-width: 600px;">
 
     <div class="button group" style="text-align: center">
-      <a class="btn  btn-primary" id="restaurant_edit" href="/restaurants/{{restaurant._id}}/edit">edit</a>
-      <form action="/restaurants/{{ restaurant._id }}/delete" method="POST" style="display:inline">
-        <button type="submit">delete</button>
+      <a class="btn btn-warning" id="restaurant_edit" href="/restaurants/{{restaurant._id}}/edit">編輯</a>
+      <form action="/restaurants/{{ restaurant._id }}/delete" method="POST" style="display:inline;">
+        <button class="btn btn-warning" type="submit">刪除</button>
       </form>
-      <a href="/" class="btn btn-primary">Back</a>
+      <a href="/" class="btn btn-warning">返回</a>
     </div>
 
     </div>
