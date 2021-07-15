@@ -42,8 +42,7 @@
 
             <a href="/restaurants/{{this._id}}" class="text-secondary">
             <div class=" style: position:relative;">
-              <img class="card-img-top" src="{{this.image}}"
-                alt="{{this.name}}">
+              <img id= "cardImg"class="card-img-top brokenImg" src="{{this.image}}" alt="{{this.name}}">
               <form action="./restaurants/{{ this._id }}/delete" method="POST" style="display:inline">
                   <button class="rounded-circle" id ="btn_delete" type="submit" style="text-align:center"><i class="fas fa-times"></i></button>
               </form> 

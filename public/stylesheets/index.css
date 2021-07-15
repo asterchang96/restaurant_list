@@ -109,7 +109,7 @@ header {
   position: absolute;
   right: 5px;
   top: 5px;
-  background: #2a2a2a; 
+  background: #2a2a2a;
   border: 1px solid #ffffff;
   font-size: 14px;
 }
@@ -118,21 +118,16 @@ header {
   background: #000000;
 }
 
-.fa-times{
+.fa-times {
   color: #ffffff;
   size: 14px;
 }
 
-.btn-link{
-  padding-right: 2px;
-}
-
-.btn-link:hover{
-  background-color: rgba(44, 97, 204, 0.03);
+.btn-link:hover {
+  background-color: rgba(44, 97, 204, 0.05);
   border-radius: 10px;
 }
 
-.btn-warning{
-  color:white; 
-  font-size: 14px;
+.btn-warning {
+  color: white;
 }

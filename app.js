@@ -5,7 +5,7 @@ const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 
 const Restaurant_list = require('./models/restaurants')
-let pre_category_restaurant = new Set(); //所有餐廳類型
+let pre_category_restaurant = new Set() //所有餐廳類型
 let category = [] //隨機選取後之餐廳類型
 let search_result_howmany_restaurants = false
 
@@ -31,7 +31,6 @@ db.on('error', () => {
 db.once('open', () => {
   console.log('mongodb connected!')
 })
-
 
 //引入餐廳動態資料
 app.get('/', (req, res) => {
@@ -141,14 +140,12 @@ app.get('/search', (req, res) => {
     })
 })
 
-
 app.listen(port, () => {
   console.log(`Express is running on http://localhost:${port}`)
 })
 
 
 //function 區
-
 function sortAndPick(pre_category_restaurant){
 
   //search category
@@ -169,7 +166,7 @@ function sortAndPick(pre_category_restaurant){
     }
     return array;
   } 
-  
+
   //取5個
   return shuffle(category_restaurant_list).slice(0,5)
 }
