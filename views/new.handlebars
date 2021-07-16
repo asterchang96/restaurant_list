@@ -13,9 +13,9 @@
       </div>
       <div class="form-group col-6 col-md-4">
         <label for="category"><i class="fas fa-utensils pr-2"></i>類別</label>
-        <input list="categories" class="form-control" name="category" id="category" placeholder="請輸入餐廳類別..." required>
+        <input list="categories" class="form-control" name="category" id="category" placeholder="請輸入/選擇餐廳類別..." required>
         <datalist id=categories>
-          {{#each category}}
+          {{#each categorySuggest}}
           <option>{{ this }}</option>
           {{/each}}
         </datalist>

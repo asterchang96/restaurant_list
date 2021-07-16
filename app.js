@@ -6,7 +6,7 @@ const mongoose = require('mongoose')
 
 const Restaurant_list = require('./models/restaurants')
 let pre_category_restaurant = new Set() //所有餐廳類型
-let category = [] //隨機選取後之餐廳類型
+let category = [] //隨機選取後之餐廳類型(餐廳已有)
 let search_result_howmany_restaurants = false
 
 const app = express()
@@ -47,22 +47,13 @@ app.get('/', (req, res) => {
 
 //新增餐廳資訊
 app.get('/restaurants/new', (req, res) => {
-  return res.render('new', {category})
+  const categorySuggest = restaurantCategorySuggest()
+  return res.render('new', { category, categorySuggest })
 })
 
 //送出餐廳資料
 app.post('/restaurants',(req, res) => {
-  console.log(req.body)
-  const name = req.body.name
-  const name_en = req.body.name_en
-  const category = req.body.category
-  const phone = req.body.phone
-  const rating = req.body.rating
-  const location = req.body.location
-  const google_map = req.body.google_map
-  const image = req.body.image
-  const description = req.body.description
-
+  const { name, name_en, category,phone, rating, location, google_map, image, description } = req.body
   const restaurant = new Restaurant_list({ name, name_en, category, phone, rating, location, google_map, image, description})
   return restaurant.save() //write back to server
     .then(() => res.redirect('/'))
@@ -72,9 +63,10 @@ app.post('/restaurants',(req, res) => {
 //編輯餐廳資料
 app.get('/restaurants/:restaurant/edit', (req, res) =>{
   const id = req.params.restaurant
+  const categorySuggest = restaurantCategorySuggest()
   return Restaurant_list.findById(id)
     .lean()
-    .then((restaurant) => res.render('edit', { restaurant , category }))
+    .then((restaurant) => res.render('edit', { restaurant , categorySuggest}))
     .catch(error => console.log(error))
 })
 
@@ -169,4 +161,8 @@ function sortAndPick(pre_category_restaurant){
 
   //取5個
   return shuffle(category_restaurant_list).slice(0,5)
+}
+
+function restaurantCategorySuggest(){  
+  return ['素食','速食','早餐和早午餐','美式','墨西哥','中式料理','日本料理','義大利美食','健康飲食','泰國餐點','台灣小吃','韓國美食','甜點','酒吧']
 }
