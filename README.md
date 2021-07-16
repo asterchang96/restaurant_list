@@ -8,6 +8,8 @@
 - 輸入 "餐廳名稱" 及 "餐廳類別" 進行搜尋
 - 點選 "餐廳類別" 按鈕進行搜尋
 - 可以檢視餐廳詳細資訊，包含類別、地址、電話、描述、圖片
+- 可以新增餐廳資訊
+- 可以重新編輯餐廳資訊
 
 ## 環境建置與需求
 
@@ -16,6 +18,8 @@
 - [Express](https://www.npmjs.com/package/express)
 - [Express-Handlebars](https://www.npmjs.com/package/express-handlebars)
 - [nodemon](https://www.npmjs.com/package/nodemon)
+- [mongoose](https://www.npmjs.com/package/mongoose)
+- [body-parser](https://www.npmjs.com/package/body-parser)
 
 ## 安裝流程
 
@@ -37,7 +41,13 @@ cd restaurant_list
 npm install
 ```
 
-4. 啟動專案
+4. 載入預設資料
+
+```
+node models/seeds/restaurantSeeder.js
+```
+
+6. 啟動專案
 
 ```
 npm run dev
