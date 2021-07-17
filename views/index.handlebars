@@ -10,11 +10,24 @@
           <!-- search --->
           <div class="input-group">
             <input type="text" name="keyword" class="form-control" placeholder="輸入餐廳、分類" aria-label="Restaurant Name..."
-              value="{{keyword}}" aria-describedby="search-button">
+              value="{{ keyword }}" aria-describedby="search-button">
+
             <div class="input-group-append">
               <button class="btn btn-major" type="submit" id="search-button"><i class="fas fa-search"></i></button>
+            </div>  
+                  
+            <div class="dropdown">
+              <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-align-justify"></i>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <li><a class="dropdown-item" href="/search?keyword={{ keyword }}&sortItem=name&sortMethod=asc">A->Z</a></li>
+                <li><a class="dropdown-item" href="/search?keyword={{ keyword }}&sortItem=name&sortMethod=desc">Z->A</a></li>
+                <li><a class="dropdown-item" href="/search?keyword={{ keyword }}&sortItem=category&sortMethod=asc">類別</a></li>
+                <li><a class="dropdown-item" href="/search?keyword={{ keyword }}&sortItem=location&sortMethod=asc">地區</a></li>
+              </ul>
             </div>
-          </div>
+          </div>            
           <!-- search category --->
           <div id="category-group">
             <p class="badge" style="display:inline;">試試看:</p>
@@ -23,6 +36,7 @@
             {{/each}}
           </div>
         </form>
+
       </div>
     </div>
   </div>

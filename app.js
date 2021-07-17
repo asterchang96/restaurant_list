@@ -54,7 +54,7 @@ app.get('/restaurants/new', (req, res) => {
 //送出餐廳資料
 app.post('/restaurants',(req, res) => {
   const { name, name_en, category,phone, rating, location, google_map, image, description } = req.body
-  const restaurant = new Restaurant_list({ name, name_en, category, phone, rating, location, google_map, image, description})
+  const restaurant = new Restaurant_list({ name, name_en, category, phone, rating, location, google_map, image, description })
   return restaurant.save() //write back to server
     .then(() => res.redirect('/'))
     .catch(error => console.error(error))
@@ -66,7 +66,7 @@ app.get('/restaurants/:restaurant/edit', (req, res) =>{
   const categorySuggest = restaurantCategorySuggest()
   return Restaurant_list.findById(id)
     .lean()
-    .then((restaurant) => res.render('edit', { restaurant , categorySuggest}))
+    .then((restaurant) => res.render('edit', { restaurant , categorySuggest }))
     .catch(error => console.log(error))
 })
 
