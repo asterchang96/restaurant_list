@@ -11,6 +11,7 @@ require('./config/mongoose')
 const app = express()
 const port = 3000
 
+app.locals.sayHi = 'Hello World!'
 
 // setting template engine
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }))

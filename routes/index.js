@@ -7,6 +7,7 @@ const restaurants = require('./modules/restaurants')
 const search = require('./modules/search')
 
 
+
 router.use('/', home)
 router.use('/restaurants', restaurants)
 router.use('/search', search)

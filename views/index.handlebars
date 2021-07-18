@@ -18,12 +18,18 @@
 
             <div class="dropdown">
               <a class="btn dropdown-toggle" href="#" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                選擇排序條件
+                {{#if sortName}}
+                {{sortName}}
+                {{/if}}
+                
+                {{#unless sortName}}
+                選擇排序
+                {{/unless}}
               </a>
               <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                <li><a class="dropdown-item" href="/search?keyword={{ keyword }}&sortItem=name&sortMethod=asc" value="A->Z">A->Z</a></li>
-                <li><a class="dropdown-item" href="/search?keyword={{ keyword }}&sortItem=name&sortMethod=desc" value="Z->A">Z->A</a></li>
-                <li><a class="dropdown-item" href="/search?keyword={{ keyword }}&sortItem=rating&sortMethod=desc" value="評分">評分</a></li>
+                <li><a class="dropdown-item" href="/search?keyword={{ keyword }}&sortItem=name&sortMethod=asc&sortName=A->Z">A->Z</a></li>
+                <li><a class="dropdown-item" href="/search?keyword={{ keyword }}&sortItem=name&sortMethod=desc&sortName=Z->A">Z->A</a></li>
+                <li><a class="dropdown-item" href="/search?keyword={{ keyword }}&sortItem=rating&sortMethod=desc&sortName=評分">評分</a></li>
               </ul>
             </div>
           </div>            
@@ -57,7 +63,7 @@
             <a href="/restaurants/{{this._id}}" class="text-secondary">
             <div class=" style: position:relative;">
               <img id= "cardImg"class="card-img-top brokenImg" src="{{this.image}}" alt="{{this.name}}">
-              <form action="./restaurants/{{ this._id }}/delete" method="POST" style="display:inline">
+              <form action="./restaurants/{{ this._id }}?_method=DELETE" method="POST" style="display:inline">
                   <button class="rounded-circle" id ="btn_delete" type="submit" style="text-align:center"><i class="fas fa-times"></i></button>
               </form> 
             </div>
@@ -73,23 +79,11 @@
                 {{this.rating}}
                 <i class="fas fa-star fa-xs"></i>
               </span>
-
-{{!--               <span class="badge badge-pill badge-warning font-weight-normal">
-                <div id="locationCity" value="{{this.location}}"></div>
-              <script type="text/javascript">
-                    const locationName = document.querySelector('#locationCity');
-                    let locationTemp = locationName.value
-                    locationName.innerHTML = `<div>${locationName.value}</div>`
-                    //const locationCity = location.split('市')
-              </script>
-              </span> --}}
-
             </div>
             </a>
 
             <div class="card-footer d-flex justify-content-end">
               <a class="btn btn-link" id="restaurant_edit" href="./restaurants/{{this._id}}/edit"><i class="far fa-edit"></i> 編輯</a>
-              <a class="btn btn-link" href="/restaurants/{{this._id}}"><i class="fas fa-info-circle"></i> 詳細</a>
               <form action="./restaurants/{{ this._id }}?_method=DELETE" method="POST" style="display:inline">
                 <button class="btn btn-link" type="submit" style="color:red"><i class="fas fa-trash-alt"></i> 刪除</button>
               </form>
