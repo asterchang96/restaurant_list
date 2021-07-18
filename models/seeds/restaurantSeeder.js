@@ -1,22 +1,11 @@
-const mongoose = require('mongoose')
 const Restaurant = require('../restaurants')
 const data = require('./restaurant.json')
-
 const restaurants_data = data.results
 
-
-mongoose.connect('mongodb://localhost/restaurant_list', { useNewUrlParser: true, useUnifiedTopology: true })
-const db = mongoose.connection
-
-
-//error
-db.on('error', () => {
-  console.log('mongodb error!')
-})
+const db = require('../../config/mongoose')
 
 //success
 db.once('open', () =>{
-  console.log('mongoDB connection')
   restaurants_data.forEach((restaurant) => {
     Restaurant.create({
       id: restaurant.id,
