@@ -1,6 +1,6 @@
 <h1 class="mb-1 restaurant-show-title">修改餐廳</h1>
 <div class="container mb-5">
-  <form action="/restaurants/{{restaurant._id}}/edit" method="POST" class="needs-validation" novalidate>
+  <form action="/restaurants/{{restaurant._id}}?_method=PUT" method="POST" class="needs-validation" novalidate>
     <div class="form-row mb-3">
       <div class="form-group col-md-6">
         <label for="name"><i class="fas fa-home pr-2"></i>餐廳名稱</label>
