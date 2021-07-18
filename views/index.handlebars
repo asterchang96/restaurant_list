@@ -15,16 +15,15 @@
             <div class="input-group-append">
               <button class="btn btn-major" type="submit" id="search-button"><i class="fas fa-search"></i></button>
             </div>  
-                  
+
             <div class="dropdown">
-              <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-align-justify"></i>
+              <a class="btn dropdown-toggle" href="#" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                選擇排序條件
               </a>
               <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                <li><a class="dropdown-item" href="/search?keyword={{ keyword }}&sortItem=name&sortMethod=asc">A->Z</a></li>
-                <li><a class="dropdown-item" href="/search?keyword={{ keyword }}&sortItem=name&sortMethod=desc">Z->A</a></li>
-                <li><a class="dropdown-item" href="/search?keyword={{ keyword }}&sortItem=category&sortMethod=asc">類別</a></li>
-                <li><a class="dropdown-item" href="/search?keyword={{ keyword }}&sortItem=location&sortMethod=asc">地區</a></li>
+                <li><a class="dropdown-item" href="/search?keyword={{ keyword }}&sortItem=name&sortMethod=asc" value="A->Z">A->Z</a></li>
+                <li><a class="dropdown-item" href="/search?keyword={{ keyword }}&sortItem=name&sortMethod=desc" value="Z->A">Z->A</a></li>
+                <li><a class="dropdown-item" href="/search?keyword={{ keyword }}&sortItem=rating&sortMethod=desc" value="評分">評分</a></li>
               </ul>
             </div>
           </div>            
@@ -44,7 +43,8 @@
 <!-- restaurant list -->
   <div class="container mt-4">
     {{#if search_result}}
-    <div id="search_result"><p>搜尋到 {{restaurants.length}} 間相符合的餐廳</p></div>
+    <div id="search_result"><p>搜尋到 {{restaurants.length}} 間相
+      符合的餐廳</p></div>
     {{/if}}
     <div class="row">
       <div class="col-md-10 col-12 mx-auto">
@@ -72,14 +72,25 @@
               <span class="badge badge-pill badge-danger font-weight-normal">
                 {{this.rating}}
                 <i class="fas fa-star fa-xs"></i>
-              </span> 
+              </span>
+
+{{!--               <span class="badge badge-pill badge-warning font-weight-normal">
+                <div id="locationCity" value="{{this.location}}"></div>
+              <script type="text/javascript">
+                    const locationName = document.querySelector('#locationCity');
+                    let locationTemp = locationName.value
+                    locationName.innerHTML = `<div>${locationName.value}</div>`
+                    //const locationCity = location.split('市')
+              </script>
+              </span> --}}
+
             </div>
             </a>
 
             <div class="card-footer d-flex justify-content-end">
-              <a class="btn btn-link" id="restaurant_edit" href="./restaurants/{{this._id}}/edit"><i class="far fa-edit"></i> 編輯</a>
+              <a class="btn btn-link" id="restaurant_edit" href="./restaurants/{{this._id}}?_method=PUT"><i class="far fa-edit"></i> 編輯</a>
               <a class="btn btn-link" href="/restaurants/{{this._id}}"><i class="fas fa-info-circle"></i> 詳細</a>
-              <form action="./restaurants/{{ this._id }}/delete" method="POST" style="display:inline">
+              <form action="./restaurants/{{ this._id }}?_method=DELETE" method="POST" style="display:inline">
                 <button class="btn btn-link" type="submit" style="color:red"><i class="fas fa-trash-alt"></i> 刪除</button>
               </form>
             </div>   

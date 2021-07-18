@@ -3,6 +3,7 @@ const express = require('express')
 const exphbs = require('express-handlebars')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
+const methodOverride = require('method-override')
 
 const Restaurant_list = require('./models/restaurants')
 let pre_category_restaurant = new Set() //所有餐廳類型
@@ -19,7 +20,7 @@ app.set('view engine', 'handlebars')
 //setting static files
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: true }))
-
+app.use(methodOverride('_method'))
 //database
 mongoose.connect('mongodb://localhost/restaurant_list',{ useNewUrlParser: true , useUnifiedTopology: true })
 const db = mongoose.connection
@@ -36,8 +37,8 @@ db.once('open', () => {
 app.get('/', (req, res) => {
   search_result_howmany_restaurants = false
 
-  // 隨機產生category
-  category = sortAndPick(pre_category_restaurant)
+  category = sortAndPick(pre_category_restaurant)// 隨機產生category
+  
 
   //引入restaurant database
   Restaurant_list.find()
@@ -70,7 +71,7 @@ app.get('/restaurants/:restaurant/edit', (req, res) =>{
     .catch(error => console.log(error))
 })
 
-app.post('/restaurants/:restaurant/edit', (req, res) =>{
+app.put('/restaurants/:restaurant/', (req, res) =>{
   const id = req.params.restaurant
   return Restaurant_list.findById(id)
     .then(restaurant => {
@@ -89,7 +90,7 @@ app.post('/restaurants/:restaurant/edit', (req, res) =>{
 })
 
 //刪除餐廳資料
-app.post('/restaurants/:restaurant/delete',(req, res) => {
+app.delete('/restaurants/:restaurant/',(req, res) => {
   const id = req.params.restaurant
   return Restaurant_list.findById(id) //先確保id存在
     .then( restaurant => restaurant.remove())
@@ -110,26 +111,48 @@ app.get('/restaurants/:restaurant', (req, res) => {
 
 //搜尋餐廳
 app.get('/search', (req, res) => {
-  category = sortAndPick(pre_category_restaurant)
+  const { sortItem, sortMethod } = req.query
+  const sort = {}
+  sort[sortItem] = sortMethod
   const keyword = (req.query.keyword).replace(/\s*/g,"")
   let restaurants_search = []
+
+  // TODO:sort
   search_result_howmany_restaurants = true
-  //一般keywords搜尋、keywords分類搜尋==>顯示搜尋資料
-  Restaurant_list.find()
-    .lean()
-    .then((restaurants) => {
-      restaurants_search = restaurants.filter((restaurant) => {
-        let temp_restaurants = restaurant.name.toLowerCase().includes(keyword.toLowerCase())
-        temp_restaurants += restaurant.category.includes(keyword)
-        return temp_restaurants
-      })  
-      
-      //特殊keywords搜尋(未輸入)==>顯示全部資料
-      if(keyword === ''){
-        search_result_howmany_restaurants = false
-      }
-      res.render('index', {restaurants : restaurants_search, keyword , search_result : search_result_howmany_restaurants, category })
-    })
+  category = sortAndPick(pre_category_restaurant)
+
+  if(sortItem){
+    console.log(sort)
+    Restaurant_list.find()
+      .lean()
+      .sort(sort)
+      .then((restaurants) => {
+        restaurants_search = restaurants.filter((restaurant) => {
+          let temp_restaurants = restaurant.name.toLowerCase().includes(keyword.toLowerCase())
+          temp_restaurants += restaurant.category.includes(keyword)
+          return temp_restaurants
+        })  
+        if(keyword === ''){
+          search_result_howmany_restaurants = false
+        }
+        res.render('index', {restaurants : restaurants_search, keyword , search_result : search_result_howmany_restaurants, category })
+      })    
+  }else{
+    Restaurant_list.find()
+      .lean()
+      .then((restaurants) => {
+        restaurants_search = restaurants.filter((restaurant) => {
+          let temp_restaurants = restaurant.name.toLowerCase().includes(keyword.toLowerCase())
+          temp_restaurants += restaurant.category.includes(keyword)
+          return temp_restaurants
+        })  
+        if(keyword === ''){
+          search_result_howmany_restaurants = false
+        }
+        res.render('index', {restaurants : restaurants_search, keyword , search_result : search_result_howmany_restaurants, category })
+      })    
+  }
+
 })
 
 app.listen(port, () => {
@@ -165,4 +188,11 @@ function sortAndPick(pre_category_restaurant){
 
 function restaurantCategorySuggest(){  
   return ['素食','速食','早餐和早午餐','美式','墨西哥','中式料理','日本料理','義大利美食','健康飲食','泰國餐點','台灣小吃','韓國美食','甜點','酒吧']
+}
+
+// location --> which city
+function locationCity(location){
+  const location = location.split('市');
+  const locationCity = location[0].slice(-2)
+  return locationCity
 }
