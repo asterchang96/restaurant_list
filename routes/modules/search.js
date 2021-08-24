@@ -33,7 +33,7 @@ function sortAndPick(pre_category_restaurant){
 
 //搜尋餐廳
 router.get('/', (req, res) => {
-  const { sortItem, sortMethod, sortName } = req.query
+  const { sortItem, sortMethod, sortName } = req.body
   const sort = {}
   sort[sortItem] = sortMethod
   const keyword = (req.query.keyword).replace(/\s*/g,"")
