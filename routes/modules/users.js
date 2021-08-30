@@ -8,6 +8,7 @@ router.get('/login', (req, res) => {
   res.render('login')
 })
 
+//TODO 登入失敗可以顯示訊息
 router.post('/login', passport.authenticate('local', {
   successRedirect: '/',
   failureRedirect: '/users/login'
@@ -21,43 +22,52 @@ router.post('/register', (req, res) => {
   const { name, email, password, confirmPassword } = req.body
   const register_errors = []
 
+  //TODO 驗證
+  if (!name || !email || !password || !confirmPassword) {
+    register_errors.push({ message: '所有欄位都是必填！'})
+  }
   if(password !==  confirmPassword) {
-    register_errors.push('密碼與驗證密碼不相符！')
-    console.log('密碼與驗證密碼不相符！')
-    res.render('register',{
+    register_errors.push({ message : '密碼與驗證密碼不相符！'})
+  }
+
+  if(register_errors.length){
+    console.log(register_errors)
+    return res.render('register',{
+      register_errors,
       name,
       email,
       password,
       confirmPassword
     })
-  } 
+  }
 
   User.findOne({ email })
     .then((user) => {
+      //fail
       if(user){
-        console.log('此信箱已經註冊！')
-        res.render('register',{
+        register_errors.push({ message : '此信箱已經註冊！'})
+        return res.render('register',{
+          register_errors,
           name,
           email,
           password,
           confirmPassword
         })
-      }else{
-        return User.create({
-          name,
-          email,
-          password
-        })
-        .then(() => res.redirect('/'))
-        .catch(err => console.error(err))
       }
+      //success
+      return User.create({
+        name,
+        email,
+        password
+      })
+      .then(() => res.redirect('/'))
+      .catch(err => console.error(err))
     })
-
-  
 })
 
 router.get('/logout', (req, res) => {
   req.logout()
+  req.flash('success_msg', '你已經成功登出。')
   res.redirect('/users/login')
 })
 
