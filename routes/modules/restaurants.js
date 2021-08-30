@@ -18,7 +18,8 @@ router.get('/new', (req, res) => {
 //送出餐廳資料
 router.post('/',(req, res) => {
   const { name, name_en, category,phone, rating, location, google_map, image, description } = req.body
-  const restaurant = new Restaurant_list({ name, name_en, category, phone, rating, location, google_map, image, description })
+  const userId = req.user._id
+  const restaurant = new Restaurant_list({ name, name_en, category, phone, rating, location, google_map, image, description, userId })
   return restaurant.save()
     .then(() => res.redirect('/'))
     .catch(error => console.error(error))
@@ -26,8 +27,9 @@ router.post('/',(req, res) => {
 
 //動態引入餐廳詳細資料
 router.get('/:restaurant', (req, res) => {
-  const id = req.params.restaurant
-  Restaurant_list.findById(id)
+  const userId = req.user._id
+  const _id = req.params.restaurant
+  Restaurant_list.findOne({ _id, userId })
     .lean()
     .then(restaurant => res.render('show', { restaurant }))
     .catch(error => console.error(error))
@@ -36,26 +38,29 @@ router.get('/:restaurant', (req, res) => {
 
 //編輯餐廳資料
 router.get('/:restaurant/edit', (req, res) =>{
-  const id = req.params.restaurant
+  const userId = req.user._id
+  const _id = req.params.restaurant
   const categorySuggest = restaurantCategorySuggest()
-  return Restaurant_list.findById(id)
+  return Restaurant_list.findOne({ _id, userId })
     .lean()
     .then((restaurant) => res.render('edit', { restaurant , categorySuggest }))
     .catch(error => console.log(error))
 })
 
 router.put('/:restaurant', (req, res) =>{
-  const id = req.params.restaurant
-  return Restaurant_list.findById(id)
+  const { name, name_en, category,phone, rating, location, google_map, image, description } = req.body
+  const userId = req.user._id
+  const _id = req.params.restaurant
+  return Restaurant_list.findOne({ _id, userId })
     .then(restaurant => {
-      restaurant.name = req.body.name
-      restaurant.name_en = req.body.name_en
-      restaurant.category = req.body.category
-      restaurant.phone = req.body.phone
-      restaurant.rating = req.body.rating
-      restaurant.location = req.body.location
-      restaurant.google_map = req.body.google_map
-      restaurant.description = req.body.description
+      restaurant.name = name
+      restaurant.name_en = name_en
+      restaurant.category = category
+      restaurant.phone = phone
+      restaurant.rating = rating
+      restaurant.location = location
+      restaurant.google_map = google_map
+      restaurant.description = description
       return restaurant.save()
     })
     .then(() => res.redirect(`/restaurants/${id}`))
@@ -64,8 +69,8 @@ router.put('/:restaurant', (req, res) =>{
 
 //刪除餐廳資料
 router.delete('/:restaurant',(req, res) => {
-  const id = req.params.restaurant
-  return Restaurant_list.findById(id) //先確保id存在
+  const _id = req.params.restaurant
+  return Restaurant_list.findById(_id)
     .then( restaurant => restaurant.remove())
     .then(()=> res.redirect(`/`))
     .catch(error => console.error(error))

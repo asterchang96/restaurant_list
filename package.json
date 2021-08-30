@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node app.js",
     "test": "standard && node my-tests.js",
-    "dev": "node app.js",
+    "dev": "nodemon app.js",
     "seed": "node models/seeds/restaurantSeeder.js"
   },
   "keywords": [],

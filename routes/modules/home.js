@@ -3,7 +3,7 @@ const router = express.Router()
 
 const Restaurant_list = require('../../models/restaurants')
 let pre_category_restaurant = new Set()
-let category = [] //隨機選取後之餐廳類型(餐廳已有)
+let category = []
 let search_result_howmany_restaurants = false
 
 //主頁/search
@@ -33,14 +33,17 @@ function sortAndPick(pre_category_restaurant){
 
 
 router.get('/', (req, res) => {
+  const userId = req.user._id
   search_result_howmany_restaurants = false
   category = sortAndPick(pre_category_restaurant)
   
 
   //引入restaurant database
-  Restaurant_list.find()
+  Restaurant_list.find({ userId })
     .lean()
+    .sort({ _id: 'asc' })
     .then(restaurants => res.render('index', {restaurants , search_result : search_result_howmany_restaurants, category}))
+    .catch(err => console.error(err))
 })
 
 module.exports = router
