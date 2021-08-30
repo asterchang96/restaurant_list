@@ -21,8 +21,6 @@ router.post('/register', (req, res) => {
   const { name, email, password, confirmPassword } = req.body
   const register_errors = []
 
-  //TODO error
-  //1.password != confirmPassword
   if(password !==  confirmPassword) {
     register_errors.push('密碼與驗證密碼不相符！')
     console.log('密碼與驗證密碼不相符！')
@@ -58,6 +56,9 @@ router.post('/register', (req, res) => {
   
 })
 
-
+router.get('/logout', (req, res) => {
+  req.logout()
+  res.redirect('/users/login')
+})
 
 module.exports = router
