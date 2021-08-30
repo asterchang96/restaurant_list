@@ -50,6 +50,7 @@ router.get('/', (req, res) => {
       .lean()
       .sort(sort)
       .then((restaurants) => {
+        console.log(restaurants)
         restaurants_search = restaurants.filter((restaurant) => {
           let temp_restaurants = restaurant.name.toLowerCase().includes(keyword.toLowerCase())
           temp_restaurants += restaurant.category.includes(keyword)
