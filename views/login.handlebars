@@ -1,5 +1,5 @@
 <div class="row mt-5">
-  <div class="col-md-6 m-auto">
+  <div class="col-md-4 m-auto">
     <div class="card card-body">
       <h1 class="text-center mt-3">Login</h1>
       {{> messages}}
@@ -13,6 +13,7 @@
           <input type="password" id="password" name="password" class="form-control" placeholder="Enter Password">
         </div>
         <button type="submit" class="btn btn-primary btn-block">Login</button>
+        <a href="/auth/facebook" class="btn btn-info btn-block">Facebook Login</a>
       </form>
       <p class="lead mt-4">
         No Account? <a href="/users/register">Register</a>
