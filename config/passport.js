@@ -21,10 +21,13 @@ module.exports = app => {
           if (!user) {
             return done(null, false, req.flash('error_msg', "此信箱尚未註冊！"))
           }
-          if (user.password !== password) {
-            return done(null, false, req.flash('error_msg', "信箱或密碼錯誤！"))
-          }
-          return done(null, user, req.flash('success_msg', "此信箱註冊成功，請登入！"))
+          return bcrypt.compare(password, user.password)
+            .then(isMatch => {
+              if(!isMatch) {
+                done(null, false, req.flash('error_msg', "信箱或密碼錯誤！"))
+              }
+              return done(null, user, req.flash('success_msg', "此信箱註冊成功，請登入！"))
+            })
         })
         .catch(err => done(err, false))
       })
