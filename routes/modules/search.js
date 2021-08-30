@@ -34,6 +34,7 @@ function sortAndPick(pre_category_restaurant){
 //搜尋餐廳
 router.get('/', (req, res) => {
   const { sortItem, sortMethod, sortName } = req.body
+  const userId = req.user._id
   const sort = {}
   sort[sortItem] = sortMethod
   const keyword = (req.query.keyword).replace(/\s*/g,"")
@@ -45,7 +46,7 @@ router.get('/', (req, res) => {
   category = sortAndPick(pre_category_restaurant)
 
   if(sortItem){
-    Restaurant_list.find()
+    Restaurant_list.find({ userId })
       .lean()
       .sort(sort)
       .then((restaurants) => {
@@ -60,7 +61,7 @@ router.get('/', (req, res) => {
         res.render('index', {restaurants : restaurants_search, keyword , search_result : search_result_howmany_restaurants, category, sortName })
       })    
   }else{
-    Restaurant_list.find()
+    Restaurant_list.find({ userId })
       .lean()
       .then((restaurants) => {
         restaurants_search = restaurants.filter((restaurant) => {
