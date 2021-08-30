@@ -6,12 +6,12 @@ const methodOverride = require('method-override')
 
 //自訂義
 const routes = require('./routes')
+const usePassport = require('./config/passport')
 require('./config/mongoose')
 
 const app = express()
 const port = 3000
 
-app.locals.sayHi = 'Hello World!'
 
 // setting template engine
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
@@ -24,12 +24,14 @@ app.use(session({
   saveUninitialized: true
 }))
 
+
 //setting static files
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
 
 //引入餐廳動態資料
+usePassport(app)
 app.use(routes)
 
 
