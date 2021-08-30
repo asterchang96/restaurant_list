@@ -7,10 +7,9 @@ let category = []
 let search_result_howmany_restaurants = false
 
 //主頁/search
-function sortAndPick(pre_category_restaurant){
-
+function sortAndPick(pre_category_restaurant, userId){
   //search category
-  Restaurant_list.find().lean().then((restaurants) => {
+  Restaurant_list.find({ userId }).lean().then((restaurants) => {
     restaurants.forEach((restaurant) => {
     pre_category_restaurant.add(restaurant.category)
     })
@@ -35,7 +34,7 @@ function sortAndPick(pre_category_restaurant){
 router.get('/', (req, res) => {
   const userId = req.user._id
   search_result_howmany_restaurants = false
-  category = sortAndPick(pre_category_restaurant)
+  category = sortAndPick(pre_category_restaurant, userId)
   
 
   //引入restaurant database
