@@ -24,15 +24,14 @@ router.post('/register', (req, res) => {
   const register_errors = []
 
   //TODO 驗證
-  if (!name || !email || !password || !confirmPassword) {
+  if (!email || !password || !confirmPassword) {
     register_errors.push({ message: '所有欄位都是必填！'})
   }
-  if(password !==  confirmPassword) {
+  if(password !== confirmPassword) {
     register_errors.push({ message : '密碼與驗證密碼不相符！'})
   }
 
   if(register_errors.length){
-    console.log(register_errors)
     return res.render('register',{
       register_errors,
       name,
