@@ -37,7 +37,6 @@ router.get('/', (req, res) => {
   Promise.all(sortAndPick(pre_category_restaurant, userId))
     .then((results) => {
       const category = results   
-      console.log('pre_category_restaurant', pre_category_restaurant)
       Restaurant_list.find({ userId })
         .lean()
         .sort({ _id: 'asc' })

@@ -4,8 +4,9 @@ const router = express.Router()
 const Restaurant_list = require('../../models/restaurants')
 let category = [] //隨機選取後之餐廳類型(餐廳已有)
 
+//餐廳推薦字
 function restaurantCategorySuggest(){  
-  return ['素食','速食','早餐和早午餐','美式','墨西哥','中式料理','日本料理','義大利美食','健康飲食','泰國餐點','台灣小吃','韓國美食','甜點','酒吧']
+  return ['素食','速食','早餐和早午餐','中式料理','日本料理','義大利美食','泰式料理','韓國美食','甜點','酒吧']
 }
 
 
@@ -19,7 +20,7 @@ router.get('/new', (req, res) => {
 router.post('/',(req, res) => {
   const { name, name_en, category,phone, rating, location, google_map, image, description } = req.body
   const userId = req.user._id
-  const restaurant = new Restaurant_list({ name, name_en, category, phone, rating, location, google_map, image, description, userId })
+  const restaurant = new Restaurant_list({ name, name_en, category, phone, rating, location, google_map, image, description, userId})
   return restaurant.save()
     .then(() => res.redirect('/'))
     .catch(error => console.error(error))
@@ -46,6 +47,7 @@ router.get('/:restaurant/edit', (req, res) =>{
     .catch(error => console.log(error))
 })
 
+//送出編輯後餐廳資料
 router.put('/:restaurant', (req, res) =>{
   const { name, name_en, category,phone, rating, location, google_map, image, description } = req.body
   const userId = req.user._id
@@ -59,10 +61,11 @@ router.put('/:restaurant', (req, res) =>{
       restaurant.rating = rating
       restaurant.location = location
       restaurant.google_map = google_map
+      restaurant.image = image
       restaurant.description = description
       return restaurant.save()
     })
-    .then(() => res.redirect(`/restaurants/${id}`))
+    .then(() => res.redirect(`/restaurants/${_id}`))
     .catch(error => console.log(error))
 })
 
