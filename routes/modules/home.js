@@ -1,14 +1,13 @@
 const express = require('express')
 const router = express.Router()
-
 const Restaurant_list = require('../../models/restaurants')
+/* let search_result_howmany_restaurants = false */
 let pre_category_restaurant = new Set()
-let category = []
-let search_result_howmany_restaurants = false
 
-//主頁/search
+//主頁/search/試試看功能
 function sortAndPick(pre_category_restaurant, userId){
   //search category
+  
   Restaurant_list.find({ userId }).lean().then((restaurants) => {
     restaurants.forEach((restaurant) => {
     pre_category_restaurant.add(restaurant.category)
@@ -33,15 +32,17 @@ function sortAndPick(pre_category_restaurant, userId){
 
 router.get('/', (req, res) => {
   const userId = req.user._id
-  search_result_howmany_restaurants = false
-  category = sortAndPick(pre_category_restaurant, userId)
+/*   search_result_howmany_restaurants = false */
   
-
-  //引入restaurant database
-  Restaurant_list.find({ userId })
-    .lean()
-    .sort({ _id: 'asc' })
-    .then(restaurants => res.render('index', {restaurants , search_result : search_result_howmany_restaurants, category}))
+  Promise.all(sortAndPick(pre_category_restaurant, userId))
+    .then((results) => {
+      const category = results   
+      console.log('pre_category_restaurant', pre_category_restaurant)
+      Restaurant_list.find({ userId })
+        .lean()
+        .sort({ _id: 'asc' })
+        .then(restaurants => res.render('index', { restaurants, category }))
+    })
     .catch(err => console.error(err))
 })
 

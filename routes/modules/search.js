@@ -4,12 +4,12 @@ const router = express.Router()
 const Restaurant_list = require('../../models/restaurants')
 let pre_category_restaurant = new Set()
 let category = [] //隨機選取後之餐廳類型(餐廳已有)
-let search_result_howmany_restaurants = false
+let search_result = false
 
-function sortAndPick(pre_category_restaurant){
+function sortAndPick(pre_category_restaurant, userId){
 
   //search category
-  Restaurant_list.find().lean().then((restaurants) => {
+  Restaurant_list.find({ userId }).lean().then((restaurants) => {
     restaurants.forEach((restaurant) => {
     pre_category_restaurant.add(restaurant.category)
   })
@@ -33,18 +33,15 @@ function sortAndPick(pre_category_restaurant){
 
 //搜尋餐廳
 router.get('/', (req, res) => {
-  const { sortItem, sortMethod, sortName } = req.body
+  const { sortItem, sortMethod, sortName } = req.query
   const userId = req.user._id
   const sort = {}
   sort[sortItem] = sortMethod
   const keyword = (req.query.keyword).replace(/\s*/g,"")
   let restaurants_search = []
-
-
-  // TODO:sort
-  search_result_howmany_restaurants = true
-  category = sortAndPick(pre_category_restaurant)
-
+  search_result = sortItem
+  category = sortAndPick(pre_category_restaurant, userId)
+  
   if(sortItem){
     Restaurant_list.find({ userId })
       .lean()
@@ -57,9 +54,9 @@ router.get('/', (req, res) => {
           return temp_restaurants
         })  
         if(keyword === ''){
-          search_result_howmany_restaurants = false
+          search_result = false
         }
-        res.render('index', {restaurants : restaurants_search, keyword , search_result : search_result_howmany_restaurants, category, sortName })
+        res.render('index', {restaurants : restaurants_search, keyword , search_result, category, sortName })
       })    
   }else{
     Restaurant_list.find({ userId })
@@ -71,10 +68,16 @@ router.get('/', (req, res) => {
           return temp_restaurants
         })  
         if(keyword === ''){
-          search_result_howmany_restaurants = false
+          search_result = false
         }
-        res.render('index', {restaurants : restaurants_search, keyword , search_result : search_result_howmany_restaurants, category, sortName })
+        res.render('index', {restaurants : restaurants_search, keyword , search_result, category, sortName })
       })    
   }
 })
 module.exports = router
+
+//TODO 應該要只用一個資料庫搜尋法，要將sort合而為一
+//TODO Promise.all() function
+//TODO 試試看功能優化
+//TODO imgulr 
+//TODO 上傳heroku

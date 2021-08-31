@@ -29,14 +29,7 @@ app.use(session({
   saveUninitialized: true
 }))
 
-
-//setting static files
-app.use(express.static('public'))
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use(methodOverride('_method'))
-
 usePassport(app)
-
 app.use(flash())
 app.use((req, res, next) => {
   res.locals.isAuthenticated = req.isAuthenticated()
@@ -47,6 +40,10 @@ app.use((req, res, next) => {
   next()
 })
 
+//setting static files
+app.use(express.static('public'))
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(methodOverride('_method'))
 //引入餐廳動態資料
 
 app.use(routes)
