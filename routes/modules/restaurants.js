@@ -33,7 +33,6 @@ router.get('/:restaurant', (req, res) => {
     .lean()
     .then(restaurant => res.render('show', { restaurant }))
     .catch(error => console.error(error))
-  
 })
 
 //編輯餐廳資料

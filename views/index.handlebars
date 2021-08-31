@@ -63,9 +63,6 @@
             <a href="/restaurants/{{this._id}}" class="text-secondary">
             <div class=" style: position:relative;">
               <img id= "cardImg"class="card-img-top brokenImg" src="{{this.image}}" alt="{{this.name}}">
-              <form action="./restaurants/{{ this._id }}?_method=DELETE" method="POST" style="display:inline">
-                  <button class="rounded-circle" id ="btn_delete" type="submit" style="text-align:center"><i class="fas fa-times"></i></button>
-              </form> 
             </div>
             </a>
             <div class="card-body p-3">
@@ -84,6 +81,7 @@
 
             <div class="card-footer d-flex justify-content-end">
               <a class="btn btn-link" id="restaurant_edit" href="./restaurants/{{this._id}}/edit"><i class="far fa-edit"></i> 編輯</a>
+              <a class="btn btn-link" id="restaurant_show" href="./restaurants/{{this._id}}"><i class="fas fa-info"></i> 詳細</a>
               <form action="./restaurants/{{ this._id }}?_method=DELETE" method="POST" style="display:inline">
                 <button class="btn btn-link" type="submit" style="color:red"><i class="fas fa-trash-alt"></i> 刪除</button>
               </form>
