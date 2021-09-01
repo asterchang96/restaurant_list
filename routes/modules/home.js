@@ -4,7 +4,7 @@ const Restaurant_list = require('../../models/restaurants')
 let pre_category_restaurant = new Set()
 
 
-  //shuffle 隨機排序
+//shuffle 隨機排序
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
     let j = Math.floor(Math.random() * (i + 1));
@@ -13,7 +13,7 @@ function shuffle(array) {
   return array;
 }
 
-
+//首頁
 router.get('/', (req, res) => {
   const userId = req.user._id
   Restaurant_list.find({ userId })

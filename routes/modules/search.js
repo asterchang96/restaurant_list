@@ -47,21 +47,6 @@ router.get('/', (req, res) => {
       .lean()
       .sort(sort)
       .then((restaurants) => {
-        console.log(restaurants)
-        restaurants_search = restaurants.filter((restaurant) => {
-          let temp_restaurants = restaurant.name.toLowerCase().includes(keyword.toLowerCase())
-          temp_restaurants += restaurant.category.includes(keyword)
-          return temp_restaurants
-        })  
-        if(keyword === ''){
-          search_result = false
-        }
-        res.render('index', {restaurants : restaurants_search, keyword , search_result, category, sortName })
-      })    
-  }else{
-    Restaurant_list.find({ userId })
-      .lean()
-      .then((restaurants) => {
         restaurants_search = restaurants.filter((restaurant) => {
           let temp_restaurants = restaurant.name.toLowerCase().includes(keyword.toLowerCase())
           temp_restaurants += restaurant.category.includes(keyword)
