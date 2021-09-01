@@ -29,4 +29,29 @@ router.get('/', (req, res) => {
     .catch(err => console.error(err))
 })
 
+//搜尋餐廳
+router.get('/search', (req, res) => {
+  const userId = req.user._id
+  const { sortItem, sortMethod, sortName } = req.query
+  const sort = {}
+  sort[sortItem] = sortMethod
+  if(!sort) sort = { _id: 'asc' }
+  const keyword = (req.query.keyword).replace(/\s*/g,"").toLowerCase()
+
+  Restaurant_list.find({ userId }).lean().sort(sort)
+    .then((restaurants) => {
+
+      restaurants.forEach((restaurant) => {
+        pre_category_restaurant.add(restaurant.category)
+      })
+
+      let restaurants_search = restaurants.filter((restaurant) => {
+        let temp_restaurants = restaurant.name.toLowerCase().includes(keyword) || restaurant.category.includes(keyword)
+        return temp_restaurants
+      })
+      res.render('index', { restaurants : restaurants_search, keyword , category: shuffle([...pre_category_restaurant]).slice(0,5), sortName })
+    })
+    .catch(err => console.error(err))
+})
+
 module.exports = router
