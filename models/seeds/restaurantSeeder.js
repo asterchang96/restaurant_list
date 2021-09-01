@@ -3,7 +3,7 @@ if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
 
-const Restaurant = require('../restaurants')
+const Restaurant_list = require('../restaurants')
 const User = require('../user')
 const db = require('../../config/mongoose')
 
@@ -38,7 +38,7 @@ db.once('open', () => {
       .then(user => {
         const restaurants = restaurants_data.filter(restaurant => SEED_USER.restaurantsID.includes(restaurant.id))
         restaurants.forEach(restaurant => { restaurant.userId = user._id })
-        return Restaurant.create(restaurants)
+        return Restaurant_list.create(restaurants)
       })
   ))
     .then(() => {
