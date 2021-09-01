@@ -12,6 +12,7 @@ const restaurants_data = data.results
 
 const SEED_USERS = [
   {
+    name: 'user1',
     email: 'user1@example.com',
     password: '12345678',
     restaurantsID: [1,2,3]
