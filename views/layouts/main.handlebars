@@ -17,35 +17,29 @@
 
 </head>
 
-<body>
+<body {{#unless isAuthenticated}}class="banner_not_login"{{/unless}}>
   <header>
     <!-- navigation -->
     <nav class="navbar navbar-light bg-light">
       <a class="navbar-brand" href="/">
         <img src="https://assets-lighthouse.s3.amazonaws.com/uploads/image/file/6227/restaurant-list-logo.png"
           width="30" height="30" class="d-inline-block align-top" alt="我的餐廳清單">
-        我的餐廳清單
+        {{#if isAuthenticated}}{{ user.name }}{{else}}我{{/if}}的餐廳清單
       </a>
       {{#if isAuthenticated}}
-      <a href="/users/logout" class="btn">Logout</a>
+      <a href="/users/logout" class="btn"><i class="fas fa-door-open"></i>ogout</a>
       {{else}}
-      <a href="/users/login" class="btn">Login</a>
+      <a href="/users/login" class="btn btn-primary">Login</a>
       {{/if}}
   </nav>
-  
-    <div class="banner"></div>
+  {{#if isAuthenticated}}
+    <div class="banner_login"></div>
+  {{/if}}
   </header>
 
   <!-- partial templates will replace the part of "body" here -->
   {{{ body }}}
 
-{{!--   <footer>
-    <p class="copyright">Copyright 2021 AsterChang
-      <i class="fas fa-utensils"></i>
-      <a style= "text-decoration:none;" href="https://github.com/asterchang96/restaurant_list">GitHub</a>
-    </p>
-  </footer>
- --}}
   <script src="/javascripts/jquery-3.3.1.js"></script>
   <script src="/javascripts/popper.min.js"></script> 
   <script src="/javascripts/bootstrap.js"></script> 
