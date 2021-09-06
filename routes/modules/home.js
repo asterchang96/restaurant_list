@@ -25,6 +25,7 @@ router.get('/', (req, res) => {
         pre_category_restaurant.add(restaurant.category)
       })
       let category_restaurant_list = [...pre_category_restaurant]
+      pre_category_restaurant.clear()
       res.render('index', { restaurants, category: shuffle(category_restaurant_list).slice(0,5) })
     })
     .catch(err => console.error(err))
@@ -45,12 +46,14 @@ router.get('/search', (req, res) => {
       restaurants.forEach((restaurant) => {
         pre_category_restaurant.add(restaurant.category)
       })
+      let category_restaurant_list = [...pre_category_restaurant]
+      pre_category_restaurant.clear()
 
       let restaurants_search = restaurants.filter((restaurant) => {
         let temp_restaurants = restaurant.name.toLowerCase().includes(keyword) || restaurant.category.includes(keyword)
         return temp_restaurants
       })
-      res.render('index', { restaurants : restaurants_search, keyword , category: shuffle([...pre_category_restaurant]).slice(0,5), sortName })
+      res.render('index', { restaurants : restaurants_search, keyword , category: shuffle(category_restaurant_list).slice(0,5), sortName })
     })
     .catch(err => console.error(err))
 })
