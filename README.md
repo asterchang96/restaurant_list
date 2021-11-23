@@ -1,6 +1,7 @@
 # 我的餐廳清單
 
-這是一個 Node.js + Express 打造的搜尋餐廳清單
+這是一個 Node.js + Express 打造的搜尋[餐廳清單](https://restaurant-list-ac-demo.herokuapp.com/users/login)<br/>
+測試帳密:user2@example.com / 12345678
 
 ## 產品功能
 
